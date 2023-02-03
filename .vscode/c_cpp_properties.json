@@ -1,0 +1,20 @@
+{
+    "env": {
+        "compilerSysroots": "C:/build/18.0/arm/sysroots/"
+    },
+    "configurations": [
+        {
+            "name": "NI Linux Real-Time ARMv7",
+            "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc.exe",
+            "compilerArgs": [
+                "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
+            ],
+            "includePath": [
+                "${workspaceFolder}/",
+                "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/"
+            ],
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}
