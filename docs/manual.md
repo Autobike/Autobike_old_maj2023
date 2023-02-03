@@ -5,7 +5,7 @@
 - [Running the bike](#running-the-bike)
   - [Prerequisites](#prerequisites)
   - [Getting started](#getting-started)
-    - [Open the code in LabVIEW](#open-the-code-in-labview)
+    - [View the code](#view-the-code)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
       - [USB connection](#usb-connection)
       - [WiFi connection](#wifi-connection)
@@ -39,16 +39,16 @@
 6. For building C code: 
    1. Install [Ninja](https://ninja-build.org/). Make sure to add the folder where `ninja.exe` is located to your `PATH` (instructions [here](https://stackoverflow.com/a/44272417))
    2. Install [CMake](https://cmake.org/download/)
+   
+   > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_dev_system.html)
 
 Also have a look at [Additional resources](#additional-resources) to learn more about how to use LabVIEW and git.
 
 ## Getting started
 
-To get started, open the root folder of this repository in VS Code (File > Open Folder...). Begin by installing the recommended extensions from [extensions.json](../.vscode/extensions.json), either though the popup that shows up when you open the directory, or by pressing <kbd>F1</kbd> and selecting "Extensions: Show Recommended Extensions" and installing all the Workspace Recommendations that show up in the left sidebar.
-
 If you are running the code on new bike hardware, make sure to [configure the hardware](#hardware-configuration) correctly.
 
-### Open the code in LabVIEW
+### View the code
 
 Open git bash or cmd in a directory of your choosing and enter
 
@@ -61,6 +61,8 @@ Start LabVIEW and open [`labview/Autobike.lvproj`](./../labview/Autobike.lvproj)
 ![](assets/20230203132350.png)  
 
 You are now able to open and edit VIs, but you cannot run the code since the code only runs on myRIOs, and you are not yest connected to one.
+
+Also open the root folder of this repository in VS Code (File > Open Folder...). Installing the recommended VS Code extensions from [extensions.json](../.vscode/extensions.json), either though the popup that shows up when you open the directory in VS Code, or by pressing <kbd>F1</kbd> and selecting "Extensions: Show Recommended Extensions" and installing all the Workspace Recommendations that show up in the left sidebar.
 
 ### Connect myRIO to your PC
 
@@ -91,16 +93,20 @@ Finally, close the myRIO Properties window, right click the "myRIO-1900" entry a
 
 ### Optional: Building C code
 
+This project calls C code from LabVIEW code. The C code is compiled outside LabVIEW and then uploaded to the myRIO where the LabVIEW code can access it.
+
 Built C code should alreday be commited to the repo. To build yourself,
 
-1. Press <kbd>F1</kbd>, select "Tasks: Run Task" and "CMake Generate Build Files"  
+1. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "CMake Generate Build Files"  
    This prepares the build configuration
-2. Press <kbd>F1</kbd>, select "Tasks: Run Task" and "Ninja"  
+2. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "Ninja"  
    This builds the C code
 
 ### Uploading C code to the myRIO
 
-If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration).
+If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "Upload". This task runs the batch script [`upload-to-myrio.cmd`](../c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
+
+> [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
 
 # Hardware
 
@@ -125,7 +131,11 @@ Connect to the myRIO and open the Web UI or NI MAX. Under the network tab, you c
 
 ### myRIO SSH configuration
 
-The ssh server (named sshd) can be enabled from the myRIO web interface or NI MAX.
+The ssh server (named sshd) can be enabled from the myRIO web interface or NI MAX. Check the box "Enable Secure Shell Server (sshd)" as shown in the image below, then restart the myRIO.
+
+![](assets/20230203163735.png)  
+
+> [Related documentation](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA03q000000YHpxCAG&l=sv-SE)
 
 ## ESCON
 
@@ -146,6 +156,8 @@ The LabVIEW code makes use of the LabVIEW Real-Time module in order to run multi
 # Developing the code
 
 First make sure you are able to [run the bike](#running-the-bike).
+
+> [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
 
 # Additional resources
 
