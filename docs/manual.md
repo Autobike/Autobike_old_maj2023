@@ -5,10 +5,11 @@
 - [Running the bike](#running-the-bike)
   - [Prerequisites](#prerequisites)
   - [Getting started](#getting-started)
-    - [Clone the code](#clone-the-code)
+    - [Open the code in LabVIEW](#open-the-code-in-labview)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
-      - [USB Connection](#usb-connection)
-      - [WiFi Connection](#wifi-connection)
+      - [USB connection](#usb-connection)
+      - [WiFi connection](#wifi-connection)
+      - [Finishing up connection](#finishing-up-connection)
     - [Optional: Building C code](#optional-building-c-code)
     - [Uploading C code to the myRIO](#uploading-c-code-to-the-myrio)
 - [Hardware](#hardware)
@@ -47,7 +48,7 @@ To get started, open the root folder of this repository in VS Code (File > Open 
 
 If you are running the code on new bike hardware, make sure to [configure the hardware](#hardware-configuration) correctly.
 
-### Clone the code
+### Open the code in LabVIEW
 
 Open git bash or cmd in a directory of your choosing and enter
 
@@ -55,19 +56,38 @@ Open git bash or cmd in a directory of your choosing and enter
 git clone https://github.com/OssianEriksson/autobike/
 ```
 
+Start LabVIEW and open [`labview/Autobike.lvproj`](./../labview/Autobike.lvproj). You should now see something like the image below:
+
+![](assets/20230203132350.png)  
+
+You are now able to open and edit VIs, but you cannot run the code since the code only runs on myRIOs, and you are not yest connected to one.
+
 ### Connect myRIO to your PC
 
 You can connect the myRIO to a PC using either USB or WiFi. First make sure the myRIO (and optionally the RUT955) is powered on.
 
-#### USB Connection
+#### USB connection
 
 Connect the USB type B port to a USB port on the computer. You might see a popup like the image below. You can safetly ignore or close this window, it is a sign that everything works.  
 
 ![](assets/20230202213807.png)
 
-#### WiFi Connection
+#### WiFi connection
 
-First, the RUT955 must be turned on to provide WiFi. Next, the myRIO must be connected to the WiFi. If the myRIO is already configured to do this, the WiFi LED of the myRIO should become solid blue a few minutes after the WiFi comes online. Otherwise you have to first [connect the myRIO to the RUT955's WiFi](#wifi-connection).
+First, the RUT955 must be turned on to provide WiFi. Next, the myRIO must be connected to the WiFi. If the myRIO is already configured to do this, the WiFi LED of the myRIO should become solid blue a few minutes after the WiFi comes online. Otherwise you have to first [connect the myRIO to the RUT955's WiFi](#wifi-connection). Finally, make sure you also connect your own PC to the RUT955's WiFi.
+
+#### Finishing up connection
+
+Depending on which method you use to connect the myRIO to your PC, it will by default be accessible through different IP:s:
+
+* WiFi: 192.168.1.147
+* USB: 172.22.11.2
+
+In order to connect LabVIEW to the myRIO, from the Project Explorer window, right click the "myRIO-1900" entry and select "Properties". Under the "General tab", make sure "IP Address / DNS Name" is set to the correct IP as described above.
+
+![](assets/20230203132656.png)  
+
+Finally, close the myRIO Properties window, right click the "myRIO-1900" entry again and select "Connect". Depending on whether the program was already present on the myRIO or not, connection can take long time (5-10 min). During this time LabVIEW can stop responding - just be patient.
 
 ### Optional: Building C code
 
@@ -93,12 +113,7 @@ The myRIO has a web UI and is also accessable via SSH (if first enabled through 
 * Username: admin
 * Password: admin
 
-To use the web interface, first connect the myRIO over WiFi or USB. The default IP of the myRIO is
-
-* WiFi: 192.168.1.147
-* USB: 172.22.11.2
-  
-Browse to the relevant IP in Internet Explorer (newever browsers won't work). You should get to a page like the image below:
+To use the web interface, first [connect to the myRIO](#connect-myrio-to-your-pc) and then browse to the myRIO's IP in Internet Explorer (newever browsers won't work). You should get to a page like the image below:
 
 ![](assets/20230203003457.png)  
 
