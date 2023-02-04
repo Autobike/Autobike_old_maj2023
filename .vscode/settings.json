@@ -2,5 +2,6 @@
     "files.associations": {
         "stdio.h": "c"
     },
-    "cmake.sourceDirectory": "${workspaceFolder}/c"
+    "cmake.sourceDirectory": "${workspaceFolder}/c",
+    "MarkdownPaste.path": "${fileDirname}/assets"
 }
