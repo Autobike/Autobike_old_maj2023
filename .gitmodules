@@ -1,0 +1,4 @@
+[submodule "c/submodules/tiny-ntrip"]
+	path = c/submodules/tiny-ntrip
+	url = https://github.com/OssianEriksson/tiny-ntrip.git
+	branch = main
