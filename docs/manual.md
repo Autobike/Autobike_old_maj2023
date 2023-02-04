@@ -53,7 +53,7 @@ If you are running the code on new bike hardware, make sure to [configure the ha
 Open git bash or cmd in a directory of your choosing and enter
 
 ```console
-git clone https://github.com/OssianEriksson/Autobike/
+git clone --recurse-submodules https://github.com/OssianEriksson/Autobike/
 ```
 
 Start LabVIEW and open [`labview/Autobike.lvproj`](./../labview/Autobike.lvproj). You should now see something like the image below:
@@ -145,7 +145,7 @@ The ESCON motor controller can be configured using [ESCON Studio](https://www.ma
 
 ## FSESC
 
-Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Using this tool, the FSESC should be configured for the drive motor which your perticular bike sports.
+Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Using this tool, the FSESC should be configured for the drive motor which your perticular bike sports. Files containing the configuration of each bike can be found under the [`config`](../config/) directory. These files can be read and applied (and saved) by the VESC tool.
 
 # About the code
 
