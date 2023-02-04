@@ -53,7 +53,7 @@ If you are running the code on new bike hardware, make sure to [configure the ha
 Open git bash or cmd in a directory of your choosing and enter
 
 ```console
-git clone https://github.com/OssianEriksson/autobike/
+git clone https://github.com/OssianEriksson/Autobike/
 ```
 
 Start LabVIEW and open [`labview/Autobike.lvproj`](./../labview/Autobike.lvproj). You should now see something like the image below:
@@ -116,8 +116,8 @@ An updated list of hardware parts can be found on the Components tab of [this](h
 
 The myRIO has a web UI and is also accessable via SSH (if first enabled through the web UI). The web UI which is used for configuration shares a lot of the interface with [NI MAX](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA03q000000YGQwCAO&l=sv-SE) software which may alternatively be used to configure the myRIO. Both the default web UI and SSH credentials are
 
-* Username: admin
-* Password: admin
+* Username: "admin"
+* Password: blank (just press enter) or "admin"
 
 To use the web interface, first [connect to the myRIO](#connect-myrio-to-your-pc) and then browse to the myRIO's IP in Internet Explorer (newever browsers won't work). You should get to a page like the image below:
 
