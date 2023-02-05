@@ -28,3 +28,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_BUILD_TYPE Debug)
 add_library(balancing_controller SHARED src/balancing_controller.c)
 add_library(state_estimator SHARED src/state_estimator.c)
+add_library(vesc_communication SHARED src/vesc_communication.c
+    submodules/bldc_uart_comm_stm32f4_discovery/bldc_interface_uart.c
+    submodules/bldc_uart_comm_stm32f4_discovery/packet.c
+    submodules/bldc_uart_comm_stm32f4_discovery/crc.c
+    submodules/bldc_uart_comm_stm32f4_discovery/bldc_interface.c
+    submodules/bldc_uart_comm_stm32f4_discovery/buffer.c)
+target_include_directories(vesc_communication PRIVATE src/include/ChibiOS)
