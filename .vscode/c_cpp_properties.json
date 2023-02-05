@@ -10,8 +10,9 @@
                 "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
             ],
             "includePath": [
-                "${workspaceFolder}/",
-                "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/"
+                "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/",
+                "${workspaceFolder}/c/src/include",
+                "${workspaceFolder}/c/src/include/ChibiOS"
             ],
             "intelliSenseMode": "gcc-x86"
         }

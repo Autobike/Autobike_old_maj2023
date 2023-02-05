@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "*.h": "c"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/c",
     "MarkdownPaste.path": "${fileDirname}/assets"
