@@ -18,6 +18,7 @@
     - [myRIO SSH configuration](#myrio-ssh-configuration)
   - [ESCON](#escon)
   - [FSESC](#fsesc)
+  - [RUT955](#rut955)
 - [About the code](#about-the-code)
 - [Developing the code](#developing-the-code)
 - [Additional resources](#additional-resources)
@@ -146,6 +147,16 @@ The ESCON motor controller can be configured using [ESCON Studio](https://www.ma
 ## FSESC
 
 Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Using this tool, the FSESC should be configured for the drive motor which your perticular bike sports. Files containing the configuration of each bike can be found under the [`config`](../config/) directory. These files can be read and applied (and saved) by the VESC tool.
+
+## RUT955
+
+* Username: "root"
+* Password: "Autobike1"
+
+Or if this does not work the default username/password are
+
+* Username: "admin"
+* Password: "admin01"
 
 # About the code
 
