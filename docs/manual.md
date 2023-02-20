@@ -32,14 +32,13 @@
 **Make sure to get the 2019 (SPI) version of all LabVIEW products!**
 
 1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/es-es/support/downloads/software-products/download.labview-myrio-software-bundle.html#305936)
-2. Install [LabVIEW FPGA Module](https://www.ni.com/sv-se/support/downloads/software-products/download.labview-fpga-module.html#305897)
-3. Install the 2018-2019 version of [GNU C & C++ Compile Tools for ARMv7](https://www.ni.com/sv-se/support/downloads/software-products/download.gnu-c---c---compile-tools-for-armv7.html#338448). Use [7-zip](https://www.7-zip.org/download.html) to extract the download to `C:\build\18.0\arm`. The resulting file structure should look as follows:  
-   ![](assets/20230201220413.png)
-4. Install [git](https://git-scm.com/downloads)
-5. Install [VS Code](https://code.visualstudio.com/Download)
-6. For building C code: 
-   1. Install [Ninja](https://ninja-build.org/). Make sure to add the folder where `ninja.exe` is located to your `PATH` (instructions [here](https://stackoverflow.com/a/44272417))
-   2. Install [CMake](https://cmake.org/download/)
+2. Install [git](https://git-scm.com/downloads)
+3. Install [VS Code](https://code.visualstudio.com/Download)
+4. For building C code: 
+   1. Install the 2018-2019 version of [GNU C & C++ Compile Tools for ARMv7](https://www.ni.com/sv-se/support/downloads/software-products/download.gnu-c---c---compile-tools-for-armv7.html#338448). Use [7-zip](https://www.7-zip.org/download.html) to extract the download to `C:\build\18.0\arm`. The resulting file structure should look as follows:  
+      ![](assets/20230201220413.png)
+   2. Install [Ninja](https://ninja-build.org/). Make sure to add the folder where `ninja.exe` is located to your `PATH` (instructions [here](https://stackoverflow.com/a/44272417))
+   3. Install [CMake](https://cmake.org/download/)
    
    > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_dev_system.html)
 
@@ -51,7 +50,7 @@ If you are running the code on new bike hardware, make sure to [configure the ha
 
 ### View the code
 
-Open git bash or cmd in a directory of your choosing and enter
+Open git bash or cmd in a directory of your choosing (However, please **NOTE**: Do not use spaces in the directory path!) and enter
 
 ```console
 git clone --recurse-submodules https://github.com/OssianEriksson/Autobike/
@@ -149,6 +148,12 @@ The ESCON motor controller can be configured using [ESCON Studio](https://www.ma
 Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Using this tool, the FSESC should be configured for the drive motor which your perticular bike sports. Files containing the configuration of each bike can be found under the [`config`](../config/) directory. These files can be read and applied (and saved) by the VESC tool.
 
 ## RUT955
+
+WiFi Passwords:
+
+* Red bike: "Ec78RaFf"
+
+Credentials for ssh login:
 
 * Username: "root"
 * Password: "Autobike1"
