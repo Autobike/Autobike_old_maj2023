@@ -2,6 +2,6 @@
     "files.associations": {
         "*.h": "c"
     },
-    "cmake.sourceDirectory": "${workspaceFolder}/c",
+    "cmake.sourceDirectory": "${workspaceFolder}/myrio/c",
     "MarkdownPaste.path": "${fileDirname}/assets"
 }

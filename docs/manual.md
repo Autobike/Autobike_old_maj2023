@@ -56,7 +56,7 @@ Open git bash or cmd in a directory of your choosing (However, please **NOTE**: 
 git clone --recurse-submodules https://github.com/OssianEriksson/Autobike/
 ```
 
-Start LabVIEW and open [`labview/Autobike.lvproj`](./../labview/Autobike.lvproj). You should now see something like the image below:
+Start LabVIEW and open [`labview/Autobike.lvproj`](./../myrio/labview/Autobike.lvproj). You should now see something like the image below:
 
 ![](assets/20230203132350.png)  
 
@@ -104,7 +104,7 @@ Built C code should alreday be commited to the repo. To build yourself,
 
 ### Uploading C code to the myRIO
 
-If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "Upload". This task runs the batch script [`upload-to-myrio.cmd`](../c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
+If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
 
 > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
 

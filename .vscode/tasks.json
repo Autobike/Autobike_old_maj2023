@@ -2,29 +2,29 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "CMake Generate Build Files",
+            "label": "MyRIO: CMake Generate Build Files",
             "type": "shell",
-            "command": "cmake -G Ninja ${workspaceFolder}/c",
+            "command": "cmake -G Ninja ${workspaceFolder}/myrio/c",
             "options": {
-                "cwd": "${workspaceFolder}/c"
+                "cwd": "${workspaceFolder}/myrio/c"
             },
             "problemMatcher": []
         },
         {
-            "label": "Ninja",
+            "label": "MyRIO: Ninja",
             "type": "shell",
             "command": "ninja",
             "options": {
-                "cwd": "${workspaceFolder}/c"
+                "cwd": "${workspaceFolder}/myrio/c"
             },
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Upload",
+            "label": "MyRIO: Upload",
             "type": "shell",
             "command": ".\\upload-to-myrio.cmd",
             "options": {
-                "cwd": "${workspaceFolder}/c"
+                "cwd": "${workspaceFolder}/myrio/c"
             },
             "problemMatcher": []
         }

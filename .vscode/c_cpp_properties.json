@@ -11,8 +11,8 @@
             ],
             "includePath": [
                 "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/",
-                "${workspaceFolder}/c/src/include",
-                "${workspaceFolder}/c/src/include/ChibiOS"
+                "${workspaceFolder}/myrio/c/src/include",
+                "${workspaceFolder}/myrio/c/src/include/ChibiOS"
             ],
             "intelliSenseMode": "gcc-x86"
         }
