@@ -1,6 +1,6 @@
 @echo off
 echo:
-echo [33mStarting upload of scripts to the RUT955[0m
+echo [33mStarting upload of scripts and built files to the RUT955[0m
 echo:
 
 set ip=192.168.1.1
@@ -15,3 +15,4 @@ echo:
 scp scripts/99-tiny-ntrip root@%ip%:/etc/hotplug.d/usb
 scp scripts/rc.local root@%ip%:/etc
 scp scripts/tiny-ntrip-service.sh root@%ip%:/root
+scp bin/tiny-ntrip root@%ip%:/root
