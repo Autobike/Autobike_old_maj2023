@@ -10,8 +10,10 @@
       - [USB connection](#usb-connection)
       - [WiFi connection](#wifi-connection)
       - [Finishing up connection](#finishing-up-connection)
-    - [Optional: Building C code](#optional-building-c-code)
+    - [Optional: Building C code for myRIO](#optional-building-c-code-for-myrio)
     - [Uploading C code to the myRIO](#uploading-c-code-to-the-myrio)
+    - [Optional: Building C code for RUT955](#optional-building-c-code-for-rut955)
+    - [Uploading scripts and C code to the RUT955](#uploading-scripts-and-c-code-to-the-rut955)
 - [Hardware](#hardware)
   - [myRIO](#myrio)
     - [myRIO WiFi configuration](#myrio-wifi-configuration)
@@ -34,11 +36,13 @@
 1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/es-es/support/downloads/software-products/download.labview-myrio-software-bundle.html#305936)
 2. Install [git](https://git-scm.com/downloads)
 3. Install [VS Code](https://code.visualstudio.com/Download)
-4. For building C code: 
+4. For building C code for myRIO (only get these if you know you need them): 
    1. Install the 2018-2019 version of [GNU C & C++ Compile Tools for ARMv7](https://www.ni.com/sv-se/support/downloads/software-products/download.gnu-c---c---compile-tools-for-armv7.html#338448). Use [7-zip](https://www.7-zip.org/download.html) to extract the download to `C:\build\18.0\arm`. The resulting file structure should look as follows:  
       ![](assets/20230201220413.png)
    2. Install [Ninja](https://ninja-build.org/). Make sure to add the folder where `ninja.exe` is located to your `PATH` (instructions [here](https://stackoverflow.com/a/44272417))
    3. Install [CMake](https://cmake.org/download/)
+5. For building C code for RUT955 (only get these if you know you need them):
+   1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). WSL stands for Windows Subsystem for Linux. Windows now ships with linux, allowing you to run a linux distro without using a virtual machine. You should probably get the Ubuntu distro (which is installed by default).
    
    > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_dev_system.html)
 
@@ -91,22 +95,45 @@ In order to connect LabVIEW to the myRIO, from the Project Explorer window, righ
 
 Finally, close the myRIO Properties window, right click the "myRIO-1900" entry again and select "Connect". Depending on whether the program was already present on the myRIO or not, connection can take long time (5-10 min). During this time LabVIEW can stop responding - just be patient.
 
-### Optional: Building C code
+### Optional: Building C code for myRIO
 
 This project calls C code from LabVIEW code. The C code is compiled outside LabVIEW and then uploaded to the myRIO where the LabVIEW code can access it.
 
 Built C code should alreday be commited to the repo. To build yourself,
 
-1. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "CMake Generate Build Files"  
+1. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: CMake Generate Build Files"  
    This prepares the build configuration
-2. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "Ninja"  
+2. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Ninja"  
    This builds the C code
 
 ### Uploading C code to the myRIO
 
-If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
+If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
 
 > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
+
+### Optional: Building C code for RUT955
+
+RTK correction is provided to the u-blox board from the RUT955 over USB. The RTK correction data is read by a program called tiny-ntrip which implemets a client for the ntrip protocol (the protocol used to send RTK corrections). This program is compiled from outside the RUT955 and uploaded to it. The compilation requires a linux computer, or WSL which [you should already have installed](#prerequisites). Beware that the setup of the required build tools can take multiple hours.
+
+1. Launch WSL or your linux computer
+2. Run `sudo apt update`
+3. Install GNU Make with `sudo apt install make`
+4. Install the OpenWRT toolchain according to instructions [here](https://learn.microsoft.com/en-us/windows/wsl/install).
+  * Make sure you clone to `~/build/openwrt`: `git clone https://git.openwrt.org/openwrt/openwrt.git ~/build/openwrt`.
+  * When configuring with `make menuconfig`, Target system should be "Atheros ATH79", Subtarget should be "Generic" and Target Profile should be "Teltronika RUT955".
+  * You don't need to set the `PATH` variable as it is automatically set for you in [`tasks.json`](../.vscode/tasks.json).
+5. Open the Autobike project from VS Code inside WSL according to instructions from [here](https://code.visualstudio.com/docs/remote/wsl#_open-a-remote-folder-or-workspace).
+6. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Make"  
+   This builds the C code
+
+> [Related Documentation](https://openwrt.org/docs/guide-developer/helloworld/start)
+
+### Uploading scripts and C code to the RUT955
+
+If you previously built C code for the RUT955 yourself, for this next part, make sure you are not using WSL.
+
+Make sure the RUT955 is running and that you are connected to its WiFi. Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Upload". This task runs the batch script [`upload-to-rut955.cmd`](../rut955/upload-to-rut955.cmd) which uploads scripts from [`scripts`](../rut955/scripts/) and the built files from [`bin`](../rut955/bin/) to the RUT955 via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the RUT955 user when prompted.
 
 # Hardware
 
