@@ -41,10 +41,10 @@
       ![](assets/20230201220413.png)
    2. Install [Ninja](https://ninja-build.org/). Make sure to add the folder where `ninja.exe` is located to your `PATH` (instructions [here](https://stackoverflow.com/a/44272417))
    3. Install [CMake](https://cmake.org/download/)
-5. For building C code for RUT955 (only get these if you know you need them):
-   1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). WSL stands for Windows Subsystem for Linux. Windows now ships with linux, allowing you to run a linux distro without using a virtual machine. You should probably get the Ubuntu distro (which is installed by default).
    
    > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_dev_system.html)
+5. For building C code for RUT955 (only get these if you know you need them):
+   1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). WSL stands for Windows Subsystem for Linux. Windows now ships with linux, allowing you to run a linux distro without using a virtual machine. You should probably get the Ubuntu distro (which is installed by default).
 
 Also have a look at [Additional resources](#additional-resources) to learn more about how to use LabVIEW and git.
 
