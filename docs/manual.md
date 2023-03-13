@@ -4,24 +4,24 @@
 
 - [Running the bike](#running-the-bike)
   - [Prerequisites](#prerequisites)
-  - [Getting started](#getting-started)
+  - [Electronics startup procedure](#electronics-startup-procedure)
+  - [Software startup procedure](#software-startup-procedure)
     - [View the code](#view-the-code)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
-      - [USB connection](#usb-connection)
-      - [WiFi connection](#wifi-connection)
-      - [Finishing up connection](#finishing-up-connection)
-    - [Optional: Building C code for myRIO](#optional-building-c-code-for-myrio)
-    - [Uploading C code to the myRIO](#uploading-c-code-to-the-myrio)
-    - [Optional: Building C code for RUT955](#optional-building-c-code-for-rut955)
-    - [Uploading scripts and C code to the RUT955](#uploading-scripts-and-c-code-to-the-rut955)
-- [Hardware](#hardware)
+    - [Run the code](#run-the-code)
+- [Hardware specifics](#hardware-specifics)
   - [myRIO](#myrio)
     - [myRIO WiFi configuration](#myrio-wifi-configuration)
     - [myRIO SSH configuration](#myrio-ssh-configuration)
+    - [Building C code for myRIO](#building-c-code-for-myrio)
+    - [Uploading C code to the myRIO](#uploading-c-code-to-the-myrio)
   - [ESCON](#escon)
   - [FSESC](#fsesc)
   - [RUT955](#rut955)
+    - [Building C code for RUT955](#building-c-code-for-rut955)
+    - [Uploading scripts and C code to the RUT955](#uploading-scripts-and-c-code-to-the-rut955)
 - [About the code](#about-the-code)
+  - [Log files](#log-files)
 - [Developing the code](#developing-the-code)
 - [Additional resources](#additional-resources)
   - [LabVIEW](#labview)
@@ -35,7 +35,7 @@ A computer with the Windows operating system is currently required to use the bi
 
 **Make sure to get the 2021 SPI version of all LabVIEW products!**
 
-1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/sv-se/support/downloads/software-products/download.labview-myrio-software-bundle.html#460313)
+1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/sv-se/support/downloads/software-products/download.labview-myrio-software-bundle.html#460313) (licences for Chalmers students may be found [here](https://studentfile.portal.chalmers.se/library/Labview/Software/)).
 2. Install [git](https://git-scm.com/downloads)
 3. Install [VS Code](https://code.visualstudio.com/Download)
 4. For building C code for myRIO (only get these if you know you need them): 
@@ -50,9 +50,68 @@ A computer with the Windows operating system is currently required to use the bi
 
 Also have a look at [Additional resources](#additional-resources) to learn more about how to use LabVIEW and git.
 
-## Getting started
+## Electronics startup procedure
 
-If you are running the code on new bike hardware, make sure to [configure the hardware](#hardware-configuration) correctly.
+**OBS: When running the bike indoors at Chalmers, you should never connect the bike to a battery! Instead use a DC power supply to power the bikes.**
+
+First make sure the battery is charged and plugged in.
+
+![](assets/20230313152946.png)  
+*Battery connector is plugged in*
+
+Then press the main power switch.
+
+![](assets/20230313153024.png)  
+*Power switched off*
+
+![](assets/20230313153051.png)  
+*Power switched on*
+
+At this point, the MyRIO, RUT955, green PCB, GPS, and IMU boards should receive power. The MyRIO will show a red status LED for a few seconds before the LED goes out. 
+
+![](assets/20230313153310.png)  
+*The MyRIO shows a red status LED immediately after receiving power*
+
+![](assets/20230313153339.png)  
+*The red status LED of the myRIO should go out after a few seconds*
+
+![](assets/20230313153423.png)  
+*The LED:s on the GPS board comes on after it receives power. The PPS LED blinks with a green light.*
+
+After switching on the main power switch and before disabling the emergency stop (estop button), you can connect to the MyRIO via USB or wifi and run programs on it, however, no motors will spin as long as the estop is pressed down or both of the motors are turned off with the motor switches on the side of the box.
+
+If you want to run the motors on the bike, the next step is to disengage the emergency stop (estop). This is done by first pulling up the red stop button, after which you can press the top green button to disengage the estop. The light in the middle of the estop box should come on and stay on after you let go of all buttons. If you failed to pull up the red stop button, the estop will only disengage for as long as you press on the green button.
+
+![](assets/20230313153516.png)  
+*First, pull up the red stop button*
+
+![](assets/20230313153553.png)  
+*Next, press the top green button*
+
+The motor drivers for the forward drive and steering can be individually switched off with switches on the box. You can turn on only the motor you would like to run.
+
+![](assets/20230313153628.png)  
+*The forward and steering motor controllers are both turned off*
+
+![](assets/20230313153714.png)  
+*Only the steering motor is enabled*
+
+![](assets/20230313153757.png)  
+*The steering and drive motors are both enabled*
+
+When the steering motor is turned on, the steering motor controller should light up a red LED in the corner of the casing. Upon receiving a signal from the myRIO, the steering motor should now be able to turn.
+
+![](assets/20230313153922.png)  
+*Steering motor controller shows a red LED in the corner of the casing, indicating that it is powered on*
+
+When the drive motor is turned on the drive motor controller should light up several LEDs. If no LEDs light up, make sure the power button on the side of the motor controller is pressed down. This button should always be pressed down.
+
+![](assets/20230313154010.png)  
+*Drive motor controller is powered on.*
+
+## Software startup procedure
+
+If you are running the code on new or factory reset bike hardware, make sure to first [configure the hardware](#hardware-specifics) correctly.
 
 ### View the code
 
@@ -97,48 +156,15 @@ In order to connect LabVIEW to the myRIO, from the Project Explorer window, righ
 
 Finally, close the myRIO Properties window, right click the "myRIO-1900" entry again and select "Connect". Depending on whether the program was already present on the myRIO or not, connection can take long time (5-10 min). During this time LabVIEW can stop responding - just be patient.
 
-### Optional: Building C code for myRIO
+### Run the code
 
-This project calls C code from LabVIEW code. The C code is compiled outside LabVIEW and then uploaded to the myRIO where the LabVIEW code can access it.
+After turning on the relevant parts of the bike and [connecting to the myRIO](#connect-myrio-to-your-pc), you should just be able to open one of the main VI:s (listed [here](../myrio/labview)) and run it.
 
-Built C code should alreday be commited to the repo. To build yourself,
+* `Configuration.vi` - Reads and writes configuration parameters of the bike. The current configuration is permanently stored on the myRIO in the file `/c/ni-rt/startup/configuration.xml`.
+* `Calibration.vi` - Calibrates the sensors of the bike and updates the calibration parameters in the configuration file mentioned above.
+* `Main.vi` - The main program to run the motors and control algorithms of the bike.
 
-1. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: CMake Generate Build Files"  
-   This prepares the build configuration
-2. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Ninja"  
-   This builds the C code
-
-### Uploading C code to the myRIO
-
-If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
-
-> [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
-
-### Optional: Building C code for RUT955
-
-RTK correction is provided to the u-blox board from the RUT955 over USB. The RTK correction data is read by a program called tiny-ntrip which implemets a client for the ntrip protocol (the protocol used to send RTK corrections). This program is compiled from outside the RUT955 and uploaded to it. The compilation requires a linux computer, or WSL which [you should already have installed](#prerequisites). Beware that the setup of the required build tools can take multiple hours.
-
-1. Launch WSL or your linux computer
-2. Run `sudo apt update`
-3. Install GNU Make with `sudo apt install make`
-4. Install the OpenWRT toolchain according to instructions [here](https://learn.microsoft.com/en-us/windows/wsl/install).
-  * Make sure you clone to `~/build/openwrt`: `git clone https://git.openwrt.org/openwrt/openwrt.git ~/build/openwrt`.
-  * You may have to use an older commit in order for all the required settings to be present. Do this only if you encouter problems when running `make menuconfig`: `git checkout 41a1a652fbd407a40d55a07bccdbc92770a4c2be`
-  * When configuring with `make menuconfig`, Target system should be "Atheros ATH79", Subtarget should be "Generic" and Target Profile should be "Teltronika RUT955".
-  * You don't need to set the `PATH` variable as it is automatically set for you in [`tasks.json`](../.vscode/tasks.json).
-5. Open the Autobike project from VS Code inside WSL according to instructions from [here](https://code.visualstudio.com/docs/remote/wsl#_open-a-remote-folder-or-workspace).
-6. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Make"  
-   This builds the C code
-
-> [Related Documentation](https://openwrt.org/docs/guide-developer/helloworld/start)
-
-### Uploading scripts and C code to the RUT955
-
-If you previously built C code for the RUT955 yourself, for this next part, make sure you are not using WSL.
-
-Make sure the RUT955 is running and that you are connected to its WiFi. Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Upload". This task runs the batch script [`upload-to-rut955.cmd`](../rut955/upload-to-rut955.cmd) which uploads scripts from [`scripts`](../rut955/scripts/) and the built files from [`bin`](../rut955/bin/) to the RUT955 via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the RUT955 user when prompted.
-
-# Hardware
+# Hardware specifics
 
 An updated list of hardware parts can be found on the Components tab of [this](https://docs.google.com/spreadsheets/d/1jYklFR16tM9HWh2FWQ4a0sHuk9EQhuwHWUT15zN2rlk/edit?usp=sharing) spreadsheet.
 
@@ -167,6 +193,23 @@ The ssh server (named sshd) can be enabled from the myRIO web interface or NI MA
 
 > [Related documentation](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA03q000000YHpxCAG&l=sv-SE)
 
+### Building C code for myRIO
+
+This project calls C code from LabVIEW code. The C code is compiled outside LabVIEW and then uploaded to the myRIO where the LabVIEW code can access it.
+
+Built C code should alreday be commited to the repo. To build yourself,
+
+1. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: CMake Generate Build Files"  
+   This prepares the build configuration
+2. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Ninja"  
+   This builds the C code
+
+### Uploading C code to the myRIO
+
+If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
+
+> [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
+
 ## ESCON
 
 The ESCON motor controller can be configured using [ESCON Studio](https://www.maxongroup.com/maxon/view/content/escon-detailsite). Notably, you can change which RPM the max and min PWM widths of 10 and 90 percent correspond to. As of writing this document, these values should be set to +-4000 RPM at 10 and 90 percent respectively.
@@ -193,11 +236,39 @@ Or if this does not work the default username/password are
 * Username: "admin"
 * Password: "admin01"
 
+###  Building C code for RUT955
+
+RTK correction is provided to the u-blox board from the RUT955 over USB. The RTK correction data is read by a program called tiny-ntrip which implemets a client for the ntrip protocol (the protocol used to send RTK corrections). This program is compiled from outside the RUT955 and uploaded to it. The compilation requires a linux computer, or WSL which [you should already have installed](#prerequisites). Beware that the setup of the required build tools can take multiple hours.
+
+1. Launch WSL or your linux computer
+2. Run `sudo apt update`
+3. Install GNU Make with `sudo apt install make`
+4. Install the OpenWRT toolchain according to instructions [here](https://learn.microsoft.com/en-us/windows/wsl/install).
+  * Make sure you clone to `~/build/openwrt`: `git clone https://git.openwrt.org/openwrt/openwrt.git ~/build/openwrt`.
+  * You may have to use an older commit in order for all the required settings to be present. Do this only if you encouter problems when running `make menuconfig`: `git checkout 41a1a652fbd407a40d55a07bccdbc92770a4c2be`
+  * When configuring with `make menuconfig`, Target system should be "Atheros ATH79", Subtarget should be "Generic" and Target Profile should be "Teltronika RUT955".
+  * You don't need to set the `PATH` variable as it is automatically set for you in [`tasks.json`](../.vscode/tasks.json).
+5. Open the Autobike project from VS Code inside WSL according to instructions from [here](https://code.visualstudio.com/docs/remote/wsl#_open-a-remote-folder-or-workspace).
+6. Press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Make"  
+   This builds the C code
+
+> [Related Documentation](https://openwrt.org/docs/guide-developer/helloworld/start)
+
+### Uploading scripts and C code to the RUT955
+
+If you previously built C code for the RUT955 yourself, for this next part, make sure you are not using WSL.
+
+Make sure the RUT955 is running and that you are connected to its WiFi. Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "RUT955: Upload". This task runs the batch script [`upload-to-rut955.cmd`](../rut955/upload-to-rut955.cmd) which uploads scripts from [`scripts`](../rut955/scripts/) and the built files from [`bin`](../rut955/bin/) to the RUT955 via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the RUT955 user when prompted.
+
 # About the code
 
 Note that no custom bitfile is loaded to the myRIO FPGA. By default, LabVIEW then loads a default FPGA bitfile which interfaces with the blocks seen under the `myRIO` section in the functions palette. If one customizes the FPGA, then the blocks under the `myRIO` section will no longer work since they rely on the default FPGA functionality. In our case, all the functionality we need is already implemented in the default FPGA and accessible though the `myRIO` blocks, so we can keep the default FPGA.
 
 The LabVIEW code makes use of the LabVIEW Real-Time module in order to run multiple tasks in parallel. In order to pass data between tasks, we currently use Data Value References. We tried using Tag Channels, however these really hurt performance (possibly because we used them to pass large clusters).
+
+## Log files
+
+Logs from each run of the bike are stored on the myRIO in the directory `/c/ni-rt/startup`. These logs are not deleted by default, so if the bike runs for long enough the myRIO can run out of storage.
 
 # Developing the code
 
