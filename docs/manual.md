@@ -33,9 +33,9 @@
 
 A computer with the Windows operating system is currently required to use the bikes.
 
-**Make sure to get the 2019 (SPI) version of all LabVIEW products!**
+**Make sure to get the 2021 SPI version of all LabVIEW products!**
 
-1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/es-es/support/downloads/software-products/download.labview-myrio-software-bundle.html#305936)
+1. Install [LabVIEW myRIO Software Bundle](https://www.ni.com/sv-se/support/downloads/software-products/download.labview-myrio-software-bundle.html#460313)
 2. Install [git](https://git-scm.com/downloads)
 3. Install [VS Code](https://code.visualstudio.com/Download)
 4. For building C code for myRIO (only get these if you know you need them): 

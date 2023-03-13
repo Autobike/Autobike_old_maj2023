@@ -1,6 +1,5 @@
 [My Computer]
-My Computer = "192.168.1.131"
+My Computer = "192.168.1.101"
 
 [myRIO-1900]
 myRIO-1900 = "192.168.1.147"
-
