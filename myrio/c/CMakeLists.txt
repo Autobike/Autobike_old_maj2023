@@ -34,4 +34,5 @@ add_library(vesc_communication SHARED src/vesc_communication.c
     submodules/bldc_uart_comm_stm32f4_discovery/crc.c
     submodules/bldc_uart_comm_stm32f4_discovery/bldc_interface.c
     submodules/bldc_uart_comm_stm32f4_discovery/buffer.c)
+add_library(kalman_filter SHARED src/kalman_filter.c)
 target_include_directories(vesc_communication PRIVATE src/include/ChibiOS)
