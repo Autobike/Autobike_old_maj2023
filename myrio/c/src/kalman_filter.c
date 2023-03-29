@@ -31,14 +31,11 @@
  * @param speed         Approximative current speed of bike, e.g. reference speed [m/s]
  * 
  * Parameters: 
- * @param Kalman_Gain1  Kalman gain including GPS measurements
- * @param Kalman_Gain2  Kalman gain excluding GPS measurements
+ * @param Kalman_Gain   Kalman gain including GPS measurements
  * @param A_d           Discrete linear bike model (A matrix)
  * @param B_d           Discrete linear bike model (B matrix)
- * @param C1            Measurement model (C matrix) when GPS meas. are included
- * @param C2            Measurement model (C matrix) when GPS meas. are excluded
- * @param D1            Measurement model (D matrix) when GPS meas. are included
- * @param D2            Measurement model (D matrix) when GPS meas. are excluded
+ * @param C             Measurement model (C matrix) when GPS meas
+ * @param D             Measurement model (D matrix) when GPS meas
  * @param Ts            Time step [s]
  * 
  */
