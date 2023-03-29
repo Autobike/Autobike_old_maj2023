@@ -99,8 +99,8 @@
 
 void update_pointer(double* X)
 {
-    int constant = 1.1;
-    *X *= constant;
+    int constant = 0.01;
+    *X += constant;
 }
 
 
