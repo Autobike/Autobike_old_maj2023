@@ -22,8 +22,6 @@
  * Measurements:
  * @param latitude      GPS latitude [rad]
  * @param longitude     GPS longitude [rad]
- * @param X_GPS         GPS X position [m]
- * @param Y_GPS         GPS Y position[m]
  * @param a_y           Accelerometer Y value [m/s²]
  * @param w_x           Accelerometer roll rate (around X axis) [rad/s]
  * @param w_z           Accelerometer around Z axis value [rad/s]
@@ -41,62 +39,68 @@
  */
 
 // Main function
-extern void Kalman_filter(double *X, double *Y, double *Psi, double *roll, double *rollRate, double *delta, double *v, 
-                          double *dot_delta, double latitude, double longitude, double a_y, double w_x,
-                          double w_z, double delta_enc, double speed, double *Kalman_Gain[], double *A_d[],
-                          double *B_d, double *C[], double *D, double Ts)
+// extern void Kalman_filter(double* X, double *Y, double *Psi, double *roll, double *rollRate, double *delta, double *v, 
+//                           double *dot_delta, double latitude, double longitude, double a_y, double w_x,
+//                           double w_z, double delta_enc, double speed, double *Kalman_Gain[], double *A_d[],
+//                           double *B_d, double *C[], double *D, double Ts)
+// {
+//     double *Est_States[7];
+//     double *Est_States_l[7];
+//     double *Est_states_l[7];
+//     double *Est_states[7];
+//     double *y[7];
+
+//     // Initialize the states vector at time t-1
+//     *Est_States[0] = *X;
+//     *Est_States[1] = *Y;
+//     *Est_States[2] = *Psi;
+//     *Est_States[3] = *roll;
+//     *Est_States[4] = *rollRate;
+//     *Est_States[5] = *delta;
+//     *Est_States[6] = *v;
+
+//     Transform the GPS lat/long into X/Y measurements
+//     double *X_GPS;
+//     double *Y_GPS;
+
+//     transform_latlog_to_XY(longitude, latitude, X_GPS, Y_GPS);
+
+//     Wrap the measurements into an array:
+//     *y[0] = *X_GPS;
+//     *y[1] = *Y_GPS;
+//     *y[2] = a_y;
+//     *y[3] = w_x;
+//     *y[4] = w_z;
+//     *y[5] = delta_enc;
+//     *y[6] = speed;
+
+//     1. Transformation of states at time t-1 and measurements at time t into local frame
+//     transform_global_to_local(Est_States, Est_States_l);
+
+//     2. Time update
+//     time_update(Est_States_l, dot_delta, A_d, B_d);
+
+//     3. Measurement update 
+//     measurement_update(Est_States_l, dot_delta, y, Kalman_Gain, C, D, Est_states_l);
+
+//     4. Transform estimated states at time t to global frame
+//     transform_local_to_global(Est_states_l, Est_States, Est_states);
+
+//     Output the estimated states
+//     *X = *Est_states[0];
+//     *Y = *Est_states[1];
+//     *Psi = *Est_states[2];
+//     *roll = *Est_states[3];
+//     *rollRate = *Est_states[4];
+//     *delta = *Est_states[5];
+//     *v = *Est_states[6];
+// }
+
+
+void update_pointer(double* X)
 {
-    double *Est_States[7];
-    double *Est_States_l[7];
-    double *Est_states_l[7];
-    double *Est_states[7];
-    double *y[7];
-
-    // Initialize the states vector at time t-1
-    *Est_States[0] = *X;
-    *Est_States[1] = *Y;
-    *Est_States[2] = *Psi;
-    *Est_States[3] = *roll;
-    *Est_States[4] = *rollRate;
-    *Est_States[5] = *delta;
-    *Est_States[6] = *v;
-
-    // Transform the GPS lat/long into X/Y measurements
-    double *X_GPS;
-    double *Y_GPS;
-
-    transform_latlog_to_XY(longitude, latitude, X_GPS, Y_GPS);
-
-    // Wrap the measurements into an array:
-    *y[0] = *X_GPS;
-    *y[1] = *Y_GPS;
-    *y[2] = a_y;
-    *y[3] = w_x;
-    *y[4] = w_z;
-    *y[5] = delta_enc;
-    *y[6] = speed;
-
-    // 1. Transformation of states at time t-1 and measurements at time t into local frame
-    transform_global_to_local(Est_States, Est_States_l);
-
-    // 2. Time update
-    time_update(Est_States_l, dot_delta, A_d, B_d);
-
-    // 3. Measurement update 
-    measurement_update(Est_States_l, dot_delta, y, Kalman_Gain, C, D, Est_states_l);
-
-    // 4. Transform estimated states at time t to global frame
-    transform_local_to_global(Est_states_l, Est_States, Est_states);
-
-    // Output the estimated states
-    *X = *Est_states[0];
-    *Y = *Est_states[1];
-    *Psi = *Est_states[2];
-    *roll = *Est_states[3];
-    *rollRate = *Est_states[4];
-    *delta = *Est_states[5];
-    *v = *Est_states[6];
-
+    int constant = 1.1;
+    *X *= constant;
 }
 
 
