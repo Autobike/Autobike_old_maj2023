@@ -39,10 +39,10 @@
  */
 
 // Main function
-// extern void Kalman_filter(double* X, double *Y, double *Psi, double *roll, double *rollRate, double *delta, double *v, 
-//                           double *dot_delta, double latitude, double longitude, double a_y, double w_x,
-//                           double w_z, double delta_enc, double speed, double *Kalman_Gain[], double *A_d[],
-//                           double *B_d, double *C[], double *D, double Ts)
+// extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, double* rollRate, double* delta, double* v, 
+//                           double* dot_delta, double latitude, double longitude, double a_y, double w_x,
+//                           double w_z, double delta_enc, double speed, double* Kalman_Gain[], double* A_d[],
+//                           double* B_d, double* C[], double* D, double Ts)
 // {
 //     double *Est_States[7];
 //     double *Est_States_l[7];
@@ -63,7 +63,7 @@
 //     double *X_GPS;
 //     double *Y_GPS;
 
-//     transform_latlog_to_XY(longitude, latitude, X_GPS, Y_GPS);
+//     transform_latlog_to_XY(longitude, latitude, &X_GPS, &Y_GPS);
 
 //     Wrap the measurements into an array:
 //     *y[0] = *X_GPS;
@@ -75,16 +75,16 @@
 //     *y[6] = speed;
 
 //     1. Transformation of states at time t-1 and measurements at time t into local frame
-//     transform_global_to_local(Est_States, Est_States_l);
+//     transform_global_to_local(&Est_States, &Est_States_l);
 
 //     2. Time update
-//     time_update(Est_States_l, dot_delta, A_d, B_d);
+//     time_update(&Est_States_l, &dot_delta, &A_d, &B_d);
 
 //     3. Measurement update 
-//     measurement_update(Est_States_l, dot_delta, y, Kalman_Gain, C, D, Est_states_l);
+//     measurement_update(&Est_States_l, &dot_delta, &y, &Kalman_Gain, C, D, &Est_states_l);
 
 //     4. Transform estimated states at time t to global frame
-//     transform_local_to_global(Est_states_l, Est_States, Est_states);
+//     transform_local_to_global(&Est_states_l, &Est_States, &Est_states);
 
 //     Output the estimated states
 //     *X = *Est_states[0];
@@ -99,7 +99,7 @@
 
 void update_pointer(double* X)
 {
-    int constant = 0.01;
+    int constant = 10;
     *X += constant;
 }
 
@@ -125,7 +125,7 @@ static void useLastValueIfNaN(double *value, double *lastValue)
 }
 
 // Transform the GPS measurement (longitude/latitude) into X/Y measurement
-extern void transform_latlog_to_XY(double longitude, double latitude, double *X_GPS, double *Y_GPS)
+extern void transform_latlog_to_XY(double longitude, double latitude, double* X_GPS, double* Y_GPS)
 {
     static bool initializedLatLon = false;
     static double latitude0, longitude0;
@@ -150,7 +150,7 @@ extern void transform_latlog_to_XY(double longitude, double latitude, double *X_
 }
 
 // Transform from global to local frame
-extern void transform_global_to_local(double *Est_States, double *Est_States_l)
+extern void transform_global_to_local(double* Est_States, double* Est_States_l)
 {
     Est_States_l[0] = Est_States[0] * cos(Est_States[2]) + Est_States[1] * sin(Est_States[2]);
     Est_States_l[1] = -Est_States[0] * sin(Est_States[2]) + Est_States[1] * cos(Est_States[2]);
@@ -163,7 +163,7 @@ extern void transform_global_to_local(double *Est_States, double *Est_States_l)
 }
 
 // Transform from global to local frame
-extern void transform_local_to_global(double *Est_states_l,double *Est_States, double *Est_states)
+extern void transform_local_to_global(double* Est_states_l,double* Est_States, double* Est_states)
 {
 
     Est_states[0] = Est_states_l[0] * cos(Est_States[2]) + Est_states_l[1] * sin(Est_States[2]);
@@ -176,7 +176,7 @@ extern void transform_local_to_global(double *Est_states_l,double *Est_States, d
 }
 
 // Time update from t-1 to t
-extern void time_update(double *Est_States_l, double *dot_delta, double *A_d[], double *B_d)
+extern void time_update(double* Est_States_l, double* dot_delta, double* A_d[], double* B_d)
 {
     double result1[7];
     double result2[7];
