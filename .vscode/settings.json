@@ -3,5 +3,6 @@
         "*.h": "c"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/myrio/c",
-    "MarkdownPaste.path": "${fileDirname}/assets"
+    "MarkdownPaste.path": "${fileDirname}/assets",
+    "C_Cpp.errorSquiggles": "disabled"
 }
