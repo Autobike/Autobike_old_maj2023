@@ -123,7 +123,6 @@ extern void transform_global_to_local(double Est_States[7], double Est_States_l[
     Est_States_l[4] = Est_States[4];
     Est_States_l[5] = Est_States[5];
     Est_States_l[6] = Est_States[6];
-
 }
 
 // Transform from global to local frame
@@ -140,10 +139,10 @@ extern void transform_local_to_global(double Est_states_l[7], double Est_States[
 }
 
 // Time update from t-1 to t
-extern void time_update(double Est_States_l[7], double dot_delta, double (*A_d)[7], double B_d[7])
+extern void time_update(double Est_States_l[7], double dot_delta, double (*A_d)[7], double B_d[7],double Est_States_l_1[7])
 {
-    double result1[7];
-    double result2[7];
+    double result1[7] = {0,0,0,0,0,0,0};
+    double result2[7] = {0,0,0,0,0,0,0};
 
     // A_d*x
     for (int i = 0; i < 7; i++)
@@ -163,18 +162,18 @@ extern void time_update(double Est_States_l[7], double dot_delta, double (*A_d)[
     // Time update
     for(int h = 0; h < 7; h++) 
     {
-        Est_States_l[h] = result1[h] + result2[h];
+        Est_States_l_1[h] = result1[h] + result2[h];
     }
    
 }
 
 // Measurement update using the sensor data at time t
-extern void measurement_update(double Est_States_l[7], double dot_delta, double y[7], double (*Kalman_Gain)[7], double (*C)[7], double D[7], double Est_states_l[7])
+extern void measurement_update(double Est_States_l_1[7], double dot_delta, double y[7], double (*Kalman_Gain)[7], double (*C)[7], double D[7], double Est_states_l[7])
 {
-    double y_pred[7];
-    double result1[7];
-    double result2[7];
-    double result3;
+    double y_pred[7] = {0,0,0,0,0,0,0};
+    double result1[7] = {0,0,0,0,0,0,0};
+    double result2[7] = {0,0,0,0,0,0,0};
+    double result3 = 0;
 
     // TODO: THINK ABOUT HOW TO DIFFERENCIATE SAMPLING RATES HERE
     // Est_states_l = Est_States_l;
@@ -184,7 +183,7 @@ extern void measurement_update(double Est_States_l[7], double dot_delta, double 
     {
         for (int j = 0; j < 7; j++)
         {
-            result1[i] += C[i][j] * Est_States_l[j];
+            result1[i] += C[i][j] * Est_States_l_1[j];
         }
     }
 
@@ -208,7 +207,7 @@ extern void measurement_update(double Est_States_l[7], double dot_delta, double 
         {
             result3 += Kalman_Gain[z][l] * (y[l] - y_pred[l]);
         }
-        Est_states_l[z] = Est_States_l[z] + result3;
+        Est_states_l[z] = Est_States_l_1[z] + result3;
     }
 
 }
@@ -223,6 +222,7 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
 
     static double Est_States[7];
     static double Est_States_l[7];
+    static double Est_States_l_1[7];
     static double Est_states_l[7];
     static double Est_states[7];
     double y[7];
@@ -232,11 +232,14 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
         for (int h = 0; h < 7; h++) {
             Est_States[h] = 0;
             Est_States_l[h] = 0;
+            Est_States_l_1[h]=0;
             Est_states_l[h] = 0;
             Est_states[h] = 0;
         }
         Est_states[6] = 3;
     }
+
+    
 
     // Initialize the states vector at time t-1
     for (int i = 0; i < 7; i++)
@@ -269,29 +272,29 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
     transform_mat(Kalman_Gain_flat, Kalman_Gain);
     transform_mat(A_d_flat, A_d);
     transform_mat(C_flat, C);
-    
-    for(int z = 0; z < 7; z++)
-    {
-        Est_States[z] = 1;
-    }
 
     // 1. Transformation of states at time t-1 and measurements at time t into local frame
     transform_global_to_local(Est_States, Est_States_l);
+    //      for (int j = 0; j < 7; j++)
+    // {
+    //     Est_states_l[j] = Est_States[j];
+    // }
+    
 
     // 2. Time update
-    time_update(Est_States_l, dot_delta, A_d, B_d);
+    time_update(Est_States_l, dot_delta, A_d, B_d,Est_States_l_1);
 
     // 3. Measurement update 
-    //measurement_update(Est_States_l, dot_delta, y, Kalman_Gain, C, D, Est_states_l);
-     for (int j = 0; j < 7; j++)
-    {
-        Est_states_l[j] = Est_States_l[j];
-    }
+    measurement_update(Est_States_l_1, dot_delta, y, Kalman_Gain, C, D, Est_states_l);
+    //  for (int j = 0; j < 7; j++)
+    // {
+    //     Est_states[j] = Est_States_l_1[j];
+    // }
 
     // 4. Transform estimated states at time t to global frame
     transform_local_to_global(Est_states_l, Est_States, Est_states);
 
-    // Output the estimated states
+    //Output the estimated states
     *X = Est_states[0];
     *Y = Est_states[1];
     *Psi = Est_states[2];
@@ -299,5 +302,6 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
     *rollRate = Est_states[4];
     *delta = Est_states[5];
     *v = Est_states[6];
+
  }
 
