@@ -80,7 +80,7 @@ static void useLastValueIfNaN(double *value, double *lastValue)
 }
 
 // Generate the matrices due to Labview
-extern void test(double *input, double (*matrix)[7]) {
+extern void transform_mat(double *input, double (*matrix)[7]) {
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 7; j++) {
             matrix[i][j] = input[7*i + j];
@@ -130,8 +130,8 @@ extern void transform_global_to_local(double Est_States[7], double Est_States_l[
 extern void transform_local_to_global(double Est_states_l[7], double Est_States[7], double Est_states[7])
 {
 
-    Est_states[0] = Est_states_l[0] * cos(Est_States[2]) + Est_states_l[1] * sin(Est_States[2]);
-    Est_states[1] = -Est_states_l[0] * sin(Est_States[2]) + Est_states_l[1] * cos(Est_States[2]);
+    Est_states[0] = Est_states_l[0] * cos(Est_States[2]) - Est_states_l[1] * sin(Est_States[2]);
+    Est_states[1] = Est_states_l[0] * sin(Est_States[2]) + Est_states_l[1] * cos(Est_States[2]);
     Est_states[2] = Est_states_l[2] + Est_States[2];
     Est_states[3] = Est_states_l[3];
     Est_states[4] = Est_states_l[4];
@@ -266,10 +266,14 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
     double C[7][7];  
   
 
-    test(Kalman_Gain_flat, Kalman_Gain);
-    test(A_d_flat, A_d);
-    test(C_flat, C);
+    transform_mat(Kalman_Gain_flat, Kalman_Gain);
+    transform_mat(A_d_flat, A_d);
+    transform_mat(C_flat, C);
     
+    for(int z = 0; z < 7; z++)
+    {
+        Est_States[z] = 1;
+    }
 
     // 1. Transformation of states at time t-1 and measurements at time t into local frame
     transform_global_to_local(Est_States, Est_States_l);
