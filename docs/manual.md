@@ -8,6 +8,9 @@
   - [Software startup procedure](#software-startup-procedure)
     - [View the code](#view-the-code)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
+      - [USB connection](#usb-connection)
+      - [WiFi connection](#wifi-connection)
+      - [Finishing up connection](#finishing-up-connection)
     - [Run the code](#run-the-code)
 - [Hardware specifics](#hardware-specifics)
   - [myRIO](#myrio)
@@ -15,6 +18,7 @@
     - [myRIO SSH configuration](#myrio-ssh-configuration)
     - [Building C code for myRIO](#building-c-code-for-myrio)
     - [Uploading C code to the myRIO](#uploading-c-code-to-the-myrio)
+    - [Writing new C code](#writing-new-c-code)
   - [ESCON](#escon)
   - [FSESC](#fsesc)
   - [RUT955](#rut955)
@@ -209,6 +213,14 @@ Built C code should alreday be commited to the repo. To build yourself,
 If the SSH server is not enabled on your myRIO (which it is not from the factory), you must [enable it](#myrio-ssh-configuration). Next, press <kbd>F1</kbd>, select "Tasks: Run Task", then "MyRIO: Upload". This task runs the batch script [`upload-to-myrio.cmd`](../myrio/c/upload-to-myrio.cmd) which uploads the built files from [`bin`](../myrio/c/bin/) to the myRIO via `scp`. In the output of the task, answer "Yes" to any questions and enter the password of the myRIO user when prompted.
 
 > [Related Documentation](https://nilrt-docs.ni.com/cross_compile/config_vs_code.html)
+
+### Writing new C code
+
+To create a new C block with your own code in LabVIEW, you need to do three things:
+
+1. Write your C code. See [`balancing_controller.c`](../myrio/c/src/balancing_controller.c) for a basic example. It is recommended to document your code in the style of [Doxygen](https://www.doxygen.nl/manual/docblocks.html).
+2. Create a CMake target for your C code by editing [`CMakeLists.txt`](../myrio/c/CMakeLists.txt). You want to add another entry like [this](https://github.com/Autobike/Autobike/blob/4d0ef337a8a46b9b6f841eca9678f09dc1901441/myrio/c/CMakeLists.txt#L29). The [CMake documentation](https://cmake.org/cmake/help/latest/) may be helpful if you are trying to do more advanced builds. After this step you should be able to build and upload your code using the same steps described [here](#building-c-code-for-myrio) and [here](#uploading-c-code-to-the-myrio).
+3. In LabVIEW, create a "Call Library Function Node" block and configure it to match your C library function. See [`Balancing Controller.vi`](../myrio/labview/Sub%20VIs/Balancing%20Controller/Balancing%20Controller.vi) for an example.
 
 ## ESCON
 
