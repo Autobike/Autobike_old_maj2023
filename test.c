@@ -40,17 +40,87 @@ int main() {
     // }
 
     double Est_States[7] = {1,1,1,1,1,1,1};
-    double Est_states_l[7] = {1.381773,-0.301169,0,1,1,1,1};
-    double Est_states[7];
+    double Est_states_l_1[7] = {1.381773,-0.301169,0,1,1,1,1};
+    double Est_states_l[7];
 
 
-    Est_states[0] = Est_states_l[0] * cos(Est_States[2]) - Est_states_l[1] * sin(Est_States[2]);
-    Est_states[1] = Est_states_l[0] * sin(Est_States[2]) + Est_states_l[1] * cos(Est_States[2]);
-    Est_states[2] = Est_states_l[2] + Est_States[2];
-    Est_states[3] = Est_states_l[3];
-    Est_states[4] = Est_states_l[4];
-    Est_states[5] = Est_states_l[5];
-    Est_states[6] = Est_states_l[6];     
+    double y_pred[7] = {0,0,0,0,0,0,0};
+    double result1[7] = {0,0,0,0,0,0,0};
+    double result2[7] = {0,0,0,0,0,0,0};
+    double result3;
+    static double GPSflag_1 = 0;
+
+    // TODO: THINK ABOUT HOW TO DIFFERENCIATE SAMPLING RATES HERE
+    // Est_states_l = Est_States_l;
+
+    if (GPSflag_1 == GPSflag) // Update w/out GPS
+    {
+        // CGPS*x
+        for (int i = 2; i < 7; i++)
+        {
+            for (int j = 3; j < 7; j++)
+            {
+                result1[i] += C[i][j] * Est_States_l_1[j];
+            }
+        }
+        // DGPS*u
+        for(int k = 2; k < 7; k++)
+        {
+            result2[k] = D[k] * (dot_delta)  ;
+        } 
+        // y_predGPS = CGPS * Est_States_l + DGPS * dot_delta;
+        for(int h = 2; h < 7; h++) 
+        {
+            y_pred[h] = result1[h] + result2[h];
+        }
+        // Measurement update w/out GPS
+        for (int z = 3; z < 7; z++)
+        {
+        result3 = 0;
+            for (int l = 2; l < 7; l++)
+            {
+                result3 += Kalman_Gain[z][l] * (y[l] - y_pred[l]);
+            }
+        Est_states_l[z] = Est_States_l_1[z] + result3;
+        }
+        Est_states_l[0] = Est_States_l_1[0];
+        Est_states_l[1] = Est_States_l_1[1];
+        Est_states_l[2] = Est_States_l_1[2];
+    }
+    else // update with GPS
+    {
+        // C*x
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                result1[i] += C[i][j] * Est_States_l_1[j];
+            }
+        } 
+        // D*u
+        for(int k = 0; k < 7; k++)
+        {
+            result2[k] = D[k] * (dot_delta)  ;
+        } 
+        // y_pred = C1 * Est_States_l + D1 * dot_delta;
+        for(int h = 0; h < 7; h++) 
+        {
+            y_pred[h] = result1[h] + result2[h];
+        }
+        // Measurement update
+        for (int z = 0; z < 7; z++)
+        {
+        result3 = 0;
+            for (int l = 0; l < 7; l++)
+            {
+                result3 += Kalman_Gain[z][l] * (y[l] - y_pred[l]);
+            }
+        Est_states_l[z] = Est_States_l_1[z] + result3;
+        }
+    }
+
+    // Set the actual flag to previous flag for next iteration
+    GPSflag_1 = GPSflag;    
     
     printf("X: %f",Est_states[0]);
     printf("Y: %f",Est_states[1]);
