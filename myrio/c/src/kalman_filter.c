@@ -187,7 +187,7 @@ extern void measurement_update(double Est_States_l_1[7], double dot_delta, doubl
 
     // TODO: THINK ABOUT HOW TO DIFFERENCIATE SAMPLING RATES HERE
     // Est_states_l = Est_States_l;
-    GPSflag = 0;
+    // GPSflag = 0;
 
     if (GPSflag_1 == GPSflag) // Update w/out GPS
     {
@@ -305,7 +305,7 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
     static double Est_States_l_1[7];    //Local frame after time update
     static double Est_states_l[7];      //Local frame after meas update
     static double Est_states[7];        // Global frame estimation of t
-    double y[7];
+    double y[7];                        // Measurements at time t
 
     // Reset the state variables
     if (reset == 0) {
@@ -349,26 +349,26 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
 
     // 3. Measurement update 
     // Transform the GPS lat/long into X/Y measurements
-    double X_GPS;
-    double Y_GPS;
+    // double X_GPS;
+    // double Y_GPS;
 
-    transform_latlog_to_XY_l(longitude, latitude, &X_GPS, &Y_GPS, Est_States, GPSflag);
+    // transform_latlog_to_XY_l(longitude, latitude, &X_GPS, &Y_GPS, Est_States, GPSflag);
 
-        // Wrap the measurements into an array:
-    y[0] = X_GPS;
-    y[1] = Y_GPS;
-    y[2] = a_y;
-    y[3] = w_x;
-    y[4] = w_z;
-    y[5] = delta_enc;
-    y[6] = speed;
+    // // Wrap the measurements into an array:
+    // y[0] = X_GPS;
+    // y[1] = Y_GPS;
+    // y[2] = a_y;
+    // y[3] = w_x;
+    // y[4] = w_z;
+    // y[5] = delta_enc;
+    // y[6] = speed;
 
-        // Update
-    measurement_update(Est_States_l_1, dot_delta, y, Kalman_Gain, C, D, Est_states_l, GPSflag);
-    //  for (int j = 0; j < 7; j++)
-    // {
-    // Est_states_l[j] = Est_States_l_1[j];
-    // }
+    // Update
+    //measurement_update(Est_States_l_1, dot_delta, y, Kalman_Gain, C, D, Est_states_l, GPSflag);
+    for (int j = 0; j < 7; j++)
+    {
+    Est_states_l[j] = Est_States_l_1[j];
+    }
 
     // 4. Transform estimated states at time t to global frame
     transform_local_to_global(Est_states_l, Est_States, Est_states);
@@ -382,13 +382,13 @@ extern void Kalman_filter(double* X, double* Y, double* Psi, double* roll, doubl
     *delta = Est_states[5];
     *v = Est_states[6];
 
-    // *X = reset;
-    // *Y = GPSflag;
-    // *Psi = 0;
-    // *roll = 0;
-    // *rollRate = 0;
-    // *delta = 0;
-    // *v = 0;
-
+    // *X = 1;
+    // *Y = 1;
+    // *Psi = 1;
+    // *roll = 1;
+    // *rollRate = 1;
+    // *delta = 1;
+    // *v = 1;
  }
 
+ 
