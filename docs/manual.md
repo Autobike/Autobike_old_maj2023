@@ -237,6 +237,7 @@ Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Usi
 WiFi Passwords:
 
 * Red bike: "Ec78RaFf"
+* E-scooter: "Qv97KmJy"
 
 Credentials for ssh login:
 
