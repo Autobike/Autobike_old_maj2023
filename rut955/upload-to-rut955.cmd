@@ -16,3 +16,4 @@ scp scripts/99-tiny-ntrip root@%ip%:/etc/hotplug.d/usb
 scp scripts/rc.local root@%ip%:/etc
 scp scripts/tiny-ntrip-service.sh root@%ip%:/root
 scp bin/tiny-ntrip root@%ip%:/root
+ssh root@192.168.1.1 "chmod 755 ~/tiny-ntrip ~/tiny-ntrip-service.sh"
