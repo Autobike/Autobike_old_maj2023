@@ -238,6 +238,7 @@ WiFi Passwords:
 
 * Red bike: "Ec78RaFf"
 * E-scooter: "Qv97KmJy"
+* Portable bike: "Yg5d8MXf"
 
 Credentials for ssh login:
 
