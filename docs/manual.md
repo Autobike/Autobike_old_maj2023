@@ -248,7 +248,7 @@ View and change the u-blox configuration options by clicking the button in the b
 
 The [manual](https://content.u-blox.com/sites/default/files/ZED-F9P_IntegrationManual_UBX-18010802.pdf) may also be of some help when looking for config options.
 
-The configuration saved by selecting File > Save..., and to load a configuration you select File > Open. Files containing the configuration of each bike can be found under the [`config`](../config/) directory.
+Files saved using File > Save... (those should include the config parameters used on the u-blox boards) for each bike can be found under the [`config`](../config/) directory.
 
 ## RUT955
 
