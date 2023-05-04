@@ -1,4 +1,4 @@
-# Introduction
+# Introduction to the project
 
 The Autobike project is a research project at Chalmers University of Technology in collaboration with several partners within the automotive industry. The goal of the project is to construct and program self-driving bikes able to track a reference trajectory for use in automotive vehicle testing. In current automotive vehicle tests involving bikes and bikers, it is common to mount a normal bike to a mobile platform or track whose movement can be programmed. However, with the bike balancing on its own the motion will be more natural and better suited to replecating biker behaviour such as wiggling.
 
