@@ -1,5 +1,7 @@
 # Autobike manual <!-- omit in toc -->
 
+This is the upstart and technical manual for the Autobikes. If you are new to this project, it might be better to start by reading the [introduction](./introduction.md).
+
 # Table of contents <!-- omit in toc -->
 
 - [Running the bike](#running-the-bike)
