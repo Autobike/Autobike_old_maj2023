@@ -10,9 +10,6 @@ This is the upstart and technical manual for the Autobikes. If you are new to th
   - [Software startup procedure](#software-startup-procedure)
     - [View the code](#view-the-code)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
-      - [USB connection](#usb-connection)
-      - [WiFi connection](#wifi-connection)
-      - [Finishing up connection](#finishing-up-connection)
     - [Run the code](#run-the-code)
 - [Hardware specifics](#hardware-specifics)
   - [myRIO](#myrio)
@@ -23,6 +20,7 @@ This is the upstart and technical manual for the Autobikes. If you are new to th
     - [Writing new C code](#writing-new-c-code)
   - [ESCON](#escon)
   - [FSESC](#fsesc)
+  - [u-blox ZED-F9P](#u-blox-zed-f9p)
   - [RUT955](#rut955)
     - [Building C code for RUT955](#building-c-code-for-rut955)
     - [Uploading scripts and C code to the RUT955](#uploading-scripts-and-c-code-to-the-rut955)
@@ -226,13 +224,33 @@ To create a new C block with your own code in LabVIEW, you need to do three thin
 
 ## ESCON
 
-The ESCON motor controller can be configured using [ESCON Studio](https://www.maxongroup.com/maxon/view/content/escon-detailsite). Notably, you can change which RPM the max and min PWM widths of 10 and 90 percent correspond to. As of writing this document, these values should be set to +-4000 RPM at 10 and 90 percent respectively.
+The ESCON motor controller can be configured using [ESCON Studio](https://www.maxongroup.com/maxon/view/content/escon-detailsite).
 
 ![](assets/20230203005330.png)  
+
+Using the buttons shown in the image below, you can upload, download and save configurations. The configurations used on the different bikes are stored in  the [`config`](../config/) directory.
+
+![](assets/20230428140838.png)  
+
+When configuring a fresh escon, you can change which RPM the max and min PWM widths of 10 and 90 percent correspond to. As of writing this document, these values should be set to +-4000 RPM at 10 and 90 percent respectively.
 
 ## FSESC
 
 Can be configured using the [VESC tool](https://vesc-project.com/vesc_tool). Using this tool, the FSESC should be configured for the drive motor which your perticular bike sports. Files containing the configuration of each bike can be found under the [`config`](../config/) directory. These files can be read and applied (and saved) by the VESC tool.
+
+## u-blox ZED-F9P
+
+Can be configured using the [u-center](https://www.u-blox.com/en/product/u-center) software. Make sure to get the version for F9 products. Using this tool vareous options can be configured. Connect your computer via USB to the u-blox board, open u-center and select Reciever > Connection and select the correct USB device. If the GPS is recieving signals from sattelites you should now be able to view the latitude and longitude data among other things in the main window:
+
+![](assets/20230428121417.png)  
+
+View and change the u-blox configuration options by clicking the button in the below image:
+
+![](assets/20230428120821.png)  
+
+The [manual](https://content.u-blox.com/sites/default/files/ZED-F9P_IntegrationManual_UBX-18010802.pdf) may also be of some help when looking for config options.
+
+Files saved using File > Save... (those should include the config parameters used on the u-blox boards) for each bike can be found under the [`config`](../config/) directory.
 
 ## RUT955
 
