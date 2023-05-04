@@ -58,8 +58,8 @@ Below are a list of some relevant report. If you are new to the project, it is a
   G Wen, J Sjöberg  
   2022 IEEE International Conference on Vehicular Electronics and Safety
 - _Report on, among other thins, the hardware and software used for RTK corrections. In despite of the title of the report, no trajectory controller was implemented by the author_  
-  Master's thesis report:
-  Trajectory control implementation in autonomous bicycles
+  Master's thesis report:  
+  Trajectory control implementation in autonomous bicycles  
   A Ricou Pujal
 
 ## Next steps
