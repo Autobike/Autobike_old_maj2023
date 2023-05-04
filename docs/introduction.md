@@ -2,7 +2,7 @@
 
 The Autobike project is a research project at Chalmers University of Technology in collaboration with several partners within the automotive industry. The goal of the project is to construct and program self-driving bikes able to track a reference trajectory for use in automotive vehicle testing. In current automotive vehicle tests involving bikes and bikers, it is common to mount a normal bike to a mobile platform or track whose movement can be programmed. However, with the bike balancing on its own the motion will be more natural and better suited to replecating biker behaviour such as wiggling.
 
-This document is ment to give a brief overview of the project, enough to understand most of the [manual](./manual.md).
+This document is ment to give a brief overview of the project, enough to understand most of the [manual](./manual.md). At the end of this document, there are recommended steps to get further introduced to the project and the bikes.
 
 ## Hardware
 
@@ -54,7 +54,7 @@ Below are a list of some relevant report. If you are new to the project, it is a
 
 - _Paper on the trajectory controller which is implemented on the bike. The implementation was done by another set of students after the paper was written_  
   Conference paper:  
-  Lateral Control of a Self-driving Bike  
+  [Lateral Control of a Self-driving Bike](https://ieeexplore.ieee.org/document/9986548)  
   G Wen, J Sjöberg  
   2022 IEEE International Conference on Vehicular Electronics and Safety
 - _Report on, among other thins, the hardware and software used for RTK corrections. In despite of the title of the report, no trajectory controller was implemented by the author_  
