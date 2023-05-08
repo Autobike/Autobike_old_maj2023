@@ -469,7 +469,7 @@ hold on
 scatter(1:length(data_lab.Time)-1,sampletime_diff_filter)
 scatter(1:length(data_lab.Time)-1,sampletime_diff_traj,'*')
 scatter(1:length(data_lab.Time)-1,sampletime_diff_GPS,'*')
-legend('Logging Ts','State estimator Ts','Trajectory Ts')
+legend('Logging Ts','State estimator Ts','Trajectory Ts','GPS data Ts')
 title('average iteration times')
 xlabel('Time (s)')
 ylabel('Ts [s]')
@@ -514,8 +514,7 @@ function Parameters = LoadBikeParameters(bike)
         Parameters.IMU_yaw_mod = 0;             % Orientation offset in yaw (degrees)
         Parameters.Xgps_mod = 0.0;              % GPS position X accoarding to the model [m] 
         Parameters.Ygps_mod = 0.0;              % GPS position Y accoarding to the model [m]
-        Parameters.Hgps_mod = 0.0;              % GPS position height accoarding to the model   [m]
-        
+        Parameters.Hgps_mod = 0.0;              % GPS position height accoarding to the model   [m] 
 
         %
         Parameters.uneven_mass = false;    % true = use uneven mass distribution in bike model ; 0 = do not use
