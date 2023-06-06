@@ -10,6 +10,9 @@ This is the upstart and technical manual for the Autobikes. If you are new to th
   - [Software startup procedure](#software-startup-procedure)
     - [View the code](#view-the-code)
     - [Connect myRIO to your PC](#connect-myrio-to-your-pc)
+      - [USB connection](#usb-connection)
+      - [WiFi connection](#wifi-connection)
+      - [Finishing up connection](#finishing-up-connection)
     - [Run the code](#run-the-code)
 - [Hardware specifics](#hardware-specifics)
   - [myRIO](#myrio)
@@ -61,7 +64,7 @@ Also have a look at [Additional resources](#additional-resources) to learn more 
 First make sure the battery is charged and plugged in.
 
 ![](assets/20230313152946.png)  
-*Battery connector is plugged in*
+*Battery connector is plugged in.*
 
 Then press the main power switch.
 
